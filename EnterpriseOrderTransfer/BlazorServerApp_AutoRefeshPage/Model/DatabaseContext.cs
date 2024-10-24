@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
+using System.Data;
 using Microsoft.EntityFrameworkCore;
+using Dapper;
+
 
 namespace BlazorServerApp_AutoRefeshPage.Model
 {
@@ -9,8 +13,18 @@ namespace BlazorServerApp_AutoRefeshPage.Model
             {
             }
 
-            public DbSet<erpTransferOrder> erpTransferOrder { get; set; }
+        public async Task<List<erpTransferOrder>> LoadData<erptransferOrder>(string sql, string conn)
+        {
+
+            using (IDbConnection connection = new SqlConnection(conn))
+            {
+                var data = await connection.QueryAsync<erpTransferOrder>(sql);
+
+                return data.ToList();
+            }
 
         }
+
+    }
 
 }
