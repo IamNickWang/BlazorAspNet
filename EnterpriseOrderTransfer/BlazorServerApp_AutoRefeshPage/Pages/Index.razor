@@ -1,0 +1,105 @@
+﻿@page "/"
+@using BlazorServerApp_AutoRefeshPage.Model;
+@using BlazorServerApp_AutoRefeshPage.Service;
+@using BlazorServerApp_AutoRefeshPage.Data;
+@inject ITransferOrder transferOrderService
+@inject NavigationManager uriHelper
+@using System.Threading
+
+
+<PageTitle>Index</PageTitle>
+
+<h3>Chumash Enterprises Transfer Orders</h3>
+
+<div class="row">
+    <div class="col-md-12 card">
+        <table class="table table-hover table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>InternalId</th>
+                    <th>TranDate</th>
+                    <th>Type</th>
+                    <th>DocumentNumber</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>TransferLocation</th>
+                    <th>CreatedBy</th>
+                    <th>DeliveryInstruction</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (transferOrders != null && transferOrders.Any())
+                {
+                    @foreach (var transferOrder in transferOrders)
+                    {
+                        <tr>
+                            <td>@transferOrder.internalId</td>
+                            <td>@transferOrder.tranDate</td>
+                            <td>@transferOrder.type</td>
+                            <td>@transferOrder.documentNumber</td>
+                            <td>@transferOrder.status</td>
+                            <td>@transferOrder.location</td>
+                            <td>@transferOrder.transferLocation</td>
+                            <td>@transferOrder.createdBy</td>
+                            <td>@transferOrder.deliveryInstruction</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">No Transfer Order in Waiting List!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+
+    private static System.Timers.Timer _timer;
+    private int counter = 60;
+    private List<erpTransferOrder> transferOrders = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        transferOrders = await transferOrderService.GetTransferOrders();
+
+        bool firstRender = true;
+        if (firstRender)
+        {
+            var timer = new Timer(new TimerCallback(_ =>
+            {
+                // uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+                try
+                {
+                    uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+                    InvokeAsync(StateHasChanged);
+                }
+                catch
+                { }
+            }), null, 30000, 30000);
+
+        }
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // transferOrders = transferOrderService.GetTransferOrders();
+            var timer = new Timer(new TimerCallback(_ =>
+            {
+                uriHelper.NavigateTo(uriHelper.Uri, forceLoad: true);
+            }), null, 30000, 30000);
+        }
+    }
+
+}
+
+<SurveyPrompt Title="How is Blazor working for you?" />
