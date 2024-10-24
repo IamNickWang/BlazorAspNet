@@ -1,0 +1,15 @@
+The servicee has started.
+The servicee has started.
+The servicee has started.
+The servicee has started.
+10/18/2024 1:34:12 PM  ------  Total Rows Copied to erpTransferOrderFlat table = 15
+10/18/2024 1:34:18 PM The servicee has finished.
+The servicee has started.
+10/18/2024 1:41:08 PM  ------  Total Rows Copied to erpTransferOrderFlat table = 15
+10/18/2024 1:41:13 PM The servicee has finished.
+The servicee has started.
+10/21/2024 9:14:48 AM  ------  Total Rows Copied to erpTransferOrderFlat table = 40
+10/21/2024 9:14:54 AM The servicee has finished.
+The servicee has started.
+10/21/2024 1:10:49 PM  ------  Total Rows Copied to erpTransferOrderFlat table = 12
+10/21/2024 1:10:54 PM The servicee has finished.
